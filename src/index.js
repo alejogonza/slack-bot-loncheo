@@ -20,18 +20,18 @@ var channel = "almuerzo"
 
 
 
-   bot.postMessageToChannel(channel, "!Hola, soy Loncheo Bot!");
+   bot.postMessageToChannel(channel, "!Hola, soy Loncheo Bot!\n Te daré información util sobre los platos del día.\n Estos son algunos comandos básicos:\n *@Loncheo bot platos balanceado*: te daré todos los platos balanceados del dia.\n *@Loncheo bot platos saludable*: te daré todos los platos saludables del dia.\n *@Loncheo bot platos ensalada*: te daré todas las ensaladas del dia.");
 
-   setTimeout(() => {
-   bot.postMessageToChannel(channel, 'Te daré información util sobre los platos del día.')}, 1000),
-   setTimeout(() => {
-   bot.postMessageToChannel(channel, 'Estos son algunos comandos básicos:')}, 2000),
-   setTimeout(() => {
-   bot.postMessageToChannel(channel, '*@Loncheo bot platos balanceado*: te daré todos los platos balanceados del dia.')}, 4000),
-   setTimeout(() => {
-   bot.postMessageToChannel(channel, '*@Loncheo bot platos saludable*: te daré todos los platos saludables del dia.')}, 5000),
-   setTimeout(() => {
-   bot.postMessageToChannel(channel, '*@Loncheo bot platos ensalada*: te daré todas las ensaladas del dia.')}, 6000)
+//    setTimeout(() => {
+//    bot.postMessageToChannel(channel, 'Te daré información util sobre los platos del día.')}, 1000),
+//    setTimeout(() => {
+//    bot.postMessageToChannel(channel, 'Estos son algunos comandos básicos:')}, 2000),
+//    setTimeout(() => {
+//    bot.postMessageToChannel(channel, '*@Loncheo bot platos balanceado*: te daré todos los platos balanceados del dia.')}, 4000),
+//    setTimeout(() => {
+//    bot.postMessageToChannel(channel, '*@Loncheo bot platos saludable*: te daré todos los platos saludables del dia.')}, 5000),
+//    setTimeout(() => {
+//    bot.postMessageToChannel(channel, '*@Loncheo bot platos ensalada*: te daré todas las ensaladas del dia.')}, 6000)
  });
 
 
@@ -66,14 +66,7 @@ bot.on('message', async (data) => {
     if(command != 'platos'){
         
         if(command === 'ayuda'){
-            setTimeout(() => {
-                bot.postMessageToChannel(channel, 'Estos son algunos comandos básicos:')}, 2000),
-                setTimeout(() => {
-                bot.postMessageToChannel(channel, '*@Loncheo bot platos balanceado*: te daré todos los platos balanceados del dia.')}, 4000),
-                setTimeout(() => {
-                bot.postMessageToChannel(channel, '*@Loncheo bot platos saludable*: te daré todos los platos saludables del dia.')}, 5000),
-                setTimeout(() => {
-                bot.postMessageToChannel(channel, '*@Loncheo bot platos ensalada*: te daré todas las ensaladas del dia.')}, 6000)
+            bot.postMessageToChannel(channel, "!Hola, soy Loncheo Bot!\n Te daré información util sobre los platos del día.\n Estos son algunos comandos básicos:\n *@Loncheo bot platos balanceado*: te daré todos los platos balanceados del dia.\n *@Loncheo bot platos saludable*: te daré todos los platos saludables del dia.\n *@Loncheo bot platos ensalada*: te daré todas las ensaladas del dia.");
         }else{
              return bot.postMessageToChannel(channel, 'Comando desconocido escribe *@Loncheo bot ayuda* para ver la lista de comandos.');
         }
@@ -97,9 +90,19 @@ bot.on('message', async (data) => {
     if (command === 'platos' && params) {
         try {
             const res = await axios.get(`http://localhost:8080/api/platos/${dia}/${params}`);
-            bot.postMessageToChannel(channel, `Nombre del plato: ${res.data.plato[0].nombre}`)
-            setTimeout(() => {bot.postMessageToChannel(channel, `Descripción: ${res.data.plato[0].descripcion}`)}, 1000)
-            setTimeout(() => {bot.postMessageToChannel(channel, `${res.data.plato[0].image[0].url}`)}, 2000)
+            if(res.data.plato.length > 1){
+
+                for (var i = 0; i < res.data.plato.length; i++) {
+                 
+                    bot.postMessageToChannel(channel, `Nombre del plato: ${res.data.plato[i].nombre}\n Descripción: ${res.data.plato[i].descripcion} \n ${res.data.plato[i].image[0].url}`)
+           
+                 }
+            }else{
+                  bot.postMessageToChannel(channel, `Nombre del plato: ${res.data.plato[0].nombre}\n Descripción: ${res.data.plato[0].descripcion} \n ${res.data.plato[0].image[0].url}`)
+            // setTimeout(() => {bot.postMessageToChannel(channel, `Descripción: ${res.data.plato[0].descripcion}`)}, 1000)
+            // setTimeout(() => {bot.postMessageToChannel(channel, `${res.data.plato[0].image[0].url}`)}, 2000)
+            }
+          
 
         } catch (e) {
             return bot.postMessageToChannel(channel, 'No hay platos disponibles :cry:, intentalo mas tarde.');
