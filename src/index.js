@@ -3,8 +3,8 @@ const axios = require('axios');
 const moment = require('moment');
 moment.locale('es');
 require('dotenv').config();
-const dias = moment.weekdays(moment().day())
-console.log(dias)
+const dia = moment.weekdays(moment().day())
+
 
 const bot = new SlackBot({
     token: process.env.TOKEN,
@@ -16,22 +16,9 @@ bot.on('open', () => console.log('Bot is Ready!'))
 var channel = "almuerzo"
 
  bot.on("start", function() {
-   
-
-
 
    bot.postMessageToChannel(channel, "!Hola, soy Loncheo Bot!\n Te daré información util sobre los platos del día.\n Estos son algunos comandos básicos:\n *@Loncheo bot platos balanceado*: te daré todos los platos balanceados del dia.\n *@Loncheo bot platos saludable*: te daré todos los platos saludables del dia.\n *@Loncheo bot platos ensalada*: te daré todas las ensaladas del dia.");
 
-//    setTimeout(() => {
-//    bot.postMessageToChannel(channel, 'Te daré información util sobre los platos del día.')}, 1000),
-//    setTimeout(() => {
-//    bot.postMessageToChannel(channel, 'Estos son algunos comandos básicos:')}, 2000),
-//    setTimeout(() => {
-//    bot.postMessageToChannel(channel, '*@Loncheo bot platos balanceado*: te daré todos los platos balanceados del dia.')}, 4000),
-//    setTimeout(() => {
-//    bot.postMessageToChannel(channel, '*@Loncheo bot platos saludable*: te daré todos los platos saludables del dia.')}, 5000),
-//    setTimeout(() => {
-//    bot.postMessageToChannel(channel, '*@Loncheo bot platos ensalada*: te daré todas las ensaladas del dia.')}, 6000)
  });
 
 
@@ -51,12 +38,6 @@ bot.on('message', async (data) => {
 
       console.log({ command, user_id, params});
 
-    var dia = 'miercoles'
-
-// bot.postMessageToUser('US3D9M350',  'gola')
-// bot.postMessageToUser('TS4NL1KMH',  'hola')
-// bot.postMessageToChannel('DUH91509Z', 'gooool')
-// bot.getChannel()
 
     if(params === 'ha unido al canal' && command === 'se'){
         return bot.postMessageToChannel(channel, 'Hola! bienvenido al canal :smile:, escribe *@Loncheo bot ayuda* para ver la lista de comandos y pedir tu almuerzo.');
@@ -99,8 +80,6 @@ bot.on('message', async (data) => {
                  }
             }else{
                   bot.postMessageToChannel(channel, `Nombre del plato: ${res.data.plato[0].nombre}\n Descripción: ${res.data.plato[0].descripcion} \n ${res.data.plato[0].image[0].url}`)
-            // setTimeout(() => {bot.postMessageToChannel(channel, `Descripción: ${res.data.plato[0].descripcion}`)}, 1000)
-            // setTimeout(() => {bot.postMessageToChannel(channel, `${res.data.plato[0].image[0].url}`)}, 2000)
             }
           
 
